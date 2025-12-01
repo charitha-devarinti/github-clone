@@ -1,0 +1,178 @@
+*{
+    background-color: black;
+    margin:0;
+    color:white;
+    font-family: Arial;
+}
+
+.full-header{
+    margin-top:20px;
+    border-bottom: 1px solid rgb(82, 81, 81);
+    margin-left:5px;
+    margin-right: 5px;
+    position:relative
+}
+
+/* first header */
+
+header{
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+    align-items: center;
+   
+}
+
+.left{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left:50px;
+}
+.user-pic{
+    width:35px;
+    height:35px;
+    border-radius:50%;
+   margin-right:20px;
+}
+
+.right{
+    margin-right:100px;
+}
+.search-user{
+  width:250px;
+  border:1px solid rgb(100, 100, 100);
+  border-width: 1px;
+  padding:10px 15px;
+  border-radius:5px;
+  font-size:16px;
+}
+
+/* navigation */
+nav{
+    padding-top:15px;
+    margin-left:50px;
+    padding-bottom: 10px;
+}
+.left-nav{
+    display: flex;
+    
+}
+.one{
+    display:flex;
+    margin-right:25px;
+    align-items: center;
+    cursor: pointer;
+  
+}
+
+.one:hover{
+    background-color: rgb(27, 26, 26);
+    border-radius:5px;
+}
+
+.icon{
+    color:rgb(127, 127, 127); 
+    margin-right:10px;
+    background: transparent;
+    margin:3px;
+}
+
+.name{
+    margin-right:10px;
+    font-size: 14px;
+     background: transparent;
+    margin:3px;
+    margin-left:5px;
+}
+.count{
+    font-size: 14px;
+    background-color: rgb(31, 31, 31);
+    padding:4px;
+    border-radius: 30px;
+     margin:3px;
+     margin-left:5px; 
+}
+
+.border{
+    border-bottom: 2px solid #ff8c6b;
+     width:100px;
+    position: absolute;
+    bottom:0px;
+}
+
+/* body*/
+
+main{
+    display: grid;
+    grid-template-columns: 40% 60%;
+    margin-left:50px;
+}
+
+/* left side */
+
+
+
+.user-profile{
+    width:300px;
+    border-radius: 50%;
+}
+
+.user-name{
+    color: rgb(222, 221, 221);
+}
+
+.pic-name{
+    font-weight:300;
+    font-size: 20px;
+    color:rgb(106, 105, 105)
+}
+
+.follow-btn{
+     padding:10px 20px;
+     font-size:16px;
+     margin-bottom:20px;
+     border:1px solid rgb(130, 130, 130);
+     border-radius: 5px;
+}
+
+.info{
+    display: flex;
+}
+
+
+.color-change{
+    color: rgb(165, 165, 165);
+    font-size:14px;
+}
+
+.follow-data{
+    display: flex;
+    align-items: center;
+    margin-bottom: ;
+}
+
+.followers-link{
+    text-decoration: none;
+}
+
+.icon-link{
+    text-decoration: none;
+}
+
+.icon-link{
+    margin-right:5px;
+}
+
+.icon-link:hover{
+   color:blue;
+}
+
+.following-link{
+  text-decoration: none;
+}
+
+.following-link:hover{
+    color: blue;
+}
+

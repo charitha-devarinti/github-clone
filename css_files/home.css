@@ -1,5 +1,5 @@
 *{
-    background-color: black;
+    background-color: #0D1117;
     margin:0;
     color:white;
     font-family: Arial;
@@ -104,9 +104,15 @@ nav{
 /* body*/
 
 main{
-    display: grid;
-    grid-template-columns: 40% 60%;
-    margin-left:50px;
+   display:grid;
+   grid-template-columns: 30% 70%;
+   column-gap: 15px;
+   margin-left:auto;
+   margin-right:auto;
+   padding-top:30px;
+   align-items:start;
+   max-width: 80%;
+
 }
 
 /* left side */
@@ -115,7 +121,9 @@ main{
 
 .user-profile{
     width:300px;
+    max-width: 100%;
     border-radius: 50%;
+    display: block;
 }
 
 .user-name{
@@ -130,16 +138,36 @@ main{
 
 .follow-btn{
      padding:10px 20px;
-     font-size:16px;
+     font-size:14px;
+     font-weight: 700;
      margin-bottom:20px;
      border:1px solid rgb(130, 130, 130);
      border-radius: 5px;
+     background-color: rgb(32, 32, 32);
+     cursor: pointer;
+     transition: background-color 0.1s;
+     margin-top:20px;
+     width:80%;
 }
-
+.follow-btn:hover{
+    background-color:rgb(58, 58, 58)
+}
 .info{
     display: flex;
 }
 
+.git-id{
+    font-size:14px;
+    font-weight: 700;
+    color: rgb(221, 220, 220);
+    margin-bottom: 10px;
+}
+
+.location,.email-info,.git-link{
+      color: rgb(221, 220, 220);
+      font-size:14px;
+      margin-bottom: 10px;
+}
 
 .color-change{
     color: rgb(165, 165, 165);
@@ -148,8 +176,8 @@ main{
 
 .follow-data{
     display: flex;
-    align-items: center;
-    margin-bottom: ;
+    align-items: start;
+   
 }
 
 .followers-link{
@@ -162,6 +190,7 @@ main{
 
 .icon-link{
     margin-right:5px;
+    margin-bottom: 20px;
 }
 
 .icon-link:hover{
@@ -176,3 +205,55 @@ main{
     color: blue;
 }
 
+/* repo projects */
+
+
+.repo-grid{
+    display: grid;
+    grid-template-columns: auto auto;
+    gap:15px;
+}
+.repo-info{
+   border:1px solid rgb(55, 55, 55);
+   border-radius:5px;
+   padding:20px;
+   margin-top:10px;
+}
+
+.repo-title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.repo-link{
+    text-decoration: none;
+   color: #336BB3;
+}
+
+.status{
+    color:rgb(119, 119, 119);
+    font-size:12px;
+    font-weight:700;
+    border:1px solid rgb(60, 60, 60);
+    padding:4px 8px;
+    border-radius: 15px;
+}
+
+.repo-languages{
+    display: flex;
+    align-items: center;
+    margin-top:30px;
+}
+.circle{
+    width:12px;
+    height:12px;
+    background-color:rgb(252, 42, 0) ;
+    border-radius: 50%;
+}
+
+.skill{
+    font-size:12px;
+    font-weight:700;
+    color:rgb(103, 102, 102);
+    margin-left:3px;
+}

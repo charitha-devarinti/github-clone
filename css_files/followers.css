@@ -94,14 +94,6 @@ nav{
      margin-left:5px; 
 }
 
-.border{
-    border-bottom: 2px solid #ff8c6b;
-     width:100px;
-    position: absolute;
-    bottom:0px;
-}
-
-/* body*/
 
 main{
    display:grid;
@@ -205,55 +197,51 @@ main{
     color: blue;
 }
 
-/* repo projects */
+/* repo right */
 
-
-.repo-grid{
-    display: grid;
-    grid-template-columns: auto auto;
-    gap:15px;
-}
-.repo-info{
-   border:1px solid rgb(93, 93, 93);
-   border-radius:5px;
-   padding:20px;
-   margin-top:10px;
-}
-
-.repo-title{
-    display: flex;
+.about-follower{
+    display:flex;
+    align-items: start;
     justify-content: space-between;
-    align-items: center;
-}
-.repo-link{
-    text-decoration: none;
-   color: #336BB3;
+    
+    padding-bottom: 15px;
 }
 
-.status{
-    color:rgb(119, 119, 119);
-    font-size:12px;
-    font-weight:700;
-    border:1px solid rgb(60, 60, 60);
-    padding:4px 8px;
-    border-radius: 15px;
+.image-user{
+    display:flex;
+    align-items: start;
+    column-gap: 20px;
 }
 
-.repo-languages{
-    display: flex;
-    align-items: center;
-    margin-top:30px;
+.follower-name{
+     font-size:15px;
+     color: rgb(160, 160, 160);
 }
-.circle{
-    width:12px;
-    height:12px;
-    background-color:rgb(252, 42, 0) ;
+
+.image{
+    width:70px;
     border-radius: 50%;
 }
 
-.skill{
-    font-size:12px;
+.repo-follow-btn{
+    border:1px solid rgb(157, 157, 157);
+    padding:8px 15px;
+    border-radius: 5px;
+    cursor:pointer;
+    background-color: rgb(31, 30, 30);
     font-weight:700;
-    color:rgb(103, 102, 102);
-    margin-left:3px;
+    font-size: 12px;
+    transition: background-color 0.1s ease;
+    
+
+}
+
+.repo-follow-btn:hover{
+    background-color: rgb(47, 47, 47);
+}
+
+.just-border{
+    border-bottom: 1px solid rgb(90, 90, 90);
+    margin-top:15px;
+    margin-bottom:30px;
 }

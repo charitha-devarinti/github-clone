@@ -9,8 +9,7 @@
     margin-top:20px;
     border-bottom: 1px solid rgb(82, 81, 81);
     margin-left:5px;
-    margin-right:5px;
-    
+    margin-right: 5px;
     position:relative
 }
 
@@ -20,8 +19,7 @@ header{
     display: flex;
     flex-direction:row;
     justify-content: space-between;
-    margin-right:30px;
-    align-items: start;
+    align-items: center;
    
 }
 
@@ -39,11 +37,7 @@ header{
 }
 
 .right{
-    display: flex;
-    justify-content: start;
-    column-gap: 5px;
-    margin-right:10%;
-    
+    margin-right:100px;
 }
 .search-user{
   width:250px;
@@ -54,20 +48,6 @@ header{
   font-size:16px;
 }
 
-.search-btn{
-    border:1px solid rgb(100, 100, 100);
-    padding:10px 15px;
-    background-color: rgb(36, 36, 36);
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.1s ease;
-    font-size:14px;
-    font-weight:700;
-}
-
-.search-btn:hover{
-    background-color: rgb(54, 54, 54);
-}
 /* navigation */
 nav{
     padding-top:15px;
@@ -119,9 +99,10 @@ nav{
      width:100px;
     position: absolute;
     bottom:0px;
+    margin-left:9;
 }
 
-/* body*/
+
 
 main{
    display:grid;
@@ -225,55 +206,68 @@ main{
     color: blue;
 }
 
-/* repo projects */
+/* repo right */
 
-
-.repo-grid{
-    display: grid;
-    grid-template-columns: auto auto;
-    gap:15px;
-}
-.repo-info{
-   border:1px solid rgb(93, 93, 93);
-   border-radius:5px;
-   padding:20px;
-   margin-top:10px;
-}
-
-.repo-title{
-    display: flex;
+.about-follower{
+    display:flex;
+    align-items: start;
     justify-content: space-between;
-    align-items: center;
-}
-.repo-link{
-    text-decoration: none;
-   color: #336BB3;
+    
+    padding-bottom: 15px;
 }
 
-.status{
-    color:rgb(119, 119, 119);
-    font-size:12px;
-    font-weight:700;
-    border:1px solid rgb(60, 60, 60);
-    padding:4px 8px;
-    border-radius: 15px;
+.image-user{
+    display:flex;
+    align-items: start;
+    column-gap: 20px;
 }
 
-.repo-languages{
+.follower-name{
+     font-size:15px;
+     color: rgb(160, 160, 160);
+}
+
+.follower-name-location{
+    display:flex;
+    flex-direction: column;
+     row-gap: 40px;
+}
+
+.location-info{
     display: flex;
     align-items: center;
-    margin-top:30px;
+   
 }
-.circle{
-    width:12px;
-    height:12px;
-    background-color:rgb(252, 42, 0) ;
+
+.location-name{
+    font-size:14px;
+    color:rgb(151, 151, 151)
+}
+
+.image{
+    width:70px;
     border-radius: 50%;
 }
 
-.skill{
-    font-size:12px;
+.repo-follow-btn{
+    border:1px solid rgb(157, 157, 157);
+    padding:8px 15px;
+    border-radius: 5px;
+    cursor:pointer;
+    background-color: rgb(31, 30, 30);
     font-weight:700;
-    color:rgb(103, 102, 102);
-    margin-left:3px;
+    font-size: 12px;
+    transition: background-color 0.1s ease;
+    
+
+}
+
+.repo-follow-btn:hover{
+    background-color: rgb(47, 47, 47);
+}
+
+.just-border{
+    border-bottom: 1px solid rgb(90, 90, 90);
+    margin-top:15px;
+    margin-bottom:30px;
 }

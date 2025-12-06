@@ -1,30 +1,14 @@
-const searchBtnEle=document.querySelector('.search-btn');
-const repoTab=document.querySelector('.repo')
-const searchEle=document.querySelector('.search-user')
+const params= new URLSearchParams(window.location.search);
+const username=params.get("username");
 
-searchBtnEle.addEventListener('click',()=>{
-  
-  const searchValue=searchEle.value.trim()
-    if(!searchValue){
-      alert('Enter a user name...')
-      return;
-    }
-     getUsers(searchValue)
-     userPopularRepos(searchValue)
-})
-
-// connecting to repository page
-
-repoTab.addEventListener('click',()=>{
-     openRepository(searchEle.value.trim())
-})
-
-function openRepository(currentUserName){
-  window.location.href=`repository.html?username=${currentUserName}`
+async function fetchingCurrentuser(username){
+  const response= await fetch(`https://api.github.com/users/${username}`)
+  if(!response.ok){
+    throw new Error('Request failed')
+  }
+  const data= await response.json();
+  console.log(data)
 }
-
-
-
 
 
 async function getUsers(username){
@@ -44,7 +28,6 @@ async function getUsers(username){
    }
 }
 
-
 function headerUserPicName(data){
       const headerLeftEle=document.querySelector('.left');
       headerLeftEle.innerHTML=`
@@ -55,8 +38,7 @@ function headerUserPicName(data){
 
 
 function displayingUserData(data){
-  const userProfileEle= document.querySelector('.main-left');
-  const repoCount=document.querySelector('.repo-count')
+  const userProfileEle= document.querySelector('.main-left')
   userProfileEle.innerHTML=`
         <img class="user-profile" src=${data.avatar_url}>
        <h2 class="user-name">${data.name}</h2>
@@ -90,45 +72,52 @@ function displayingUserData(data){
        </div>
   
   `
-
-  repoCount.innerHTML=`${data.public_repos}`
 } 
 
 
-async function userPopularRepos( username){
+async function userRepos( username){
     try{
-        const response= await fetch(`https://api.github.com/users/${username}/repos?per_page=6`);
+        const response= await fetch(`https://api.github.com/users/${username}/repos`);
          if(!response.ok){
             throw new Error('Request failed')
          }
          const data= await response.json()
         
-        displayingPopularRepos(data)
+        displayingUserRepos(data)
     }catch(error){
         console.log(error)
     }
 
 }
 
-function displayingPopularRepos(data){
-    const repoInfo= document.querySelector('.repo-grid')
-   
+function displayingUserRepos(data){
+    const repoInfo= document.querySelector('.repos-all')
       repoInfo.innerHTML='';
       data.forEach((repo)=>{
         repoInfo.innerHTML += `
-        <div class="repo-info">
-         <div class="repo-title">
-            <a href="#" class="repo-link">${repo.name}</a>
-            <p class="status">Public</p>
-         </div>
-        <div class="repo-languages">
-         <div class="circle"></div>
-         <p class="skill">${repo['language'] ? repo['language']:'Not Available'}</p>
-        </div> 
-      </div>
+            <div class="each-repo">
+            <div class="repo-and-status">
+              <h3 class="repo-name">${repo.name}</h3>
+              <p class="repo-status">Public</p>
+            </div>
+            <div class="skill-and-star">
+              <div class="color-and-skill">
+                  <div class="color-circle"></div>
+                  <p class="used-skill">${repo['language'] ? repo['language']:'Not Available'}</p>
+              </div>
+              <div class="star-num">
+                   <i class="fa-regular fa-star star-icon"></i>
+                   <p class="star-count">${repo.stargazers_count}</p> 
+              </div>
+            </div>
+       </div>
+        <div class="just-border"></div>
         
         `
-       
       })
 }
 
+
+fetchingCurrentuser(username)
+getUsers(username)
+userRepos(username)

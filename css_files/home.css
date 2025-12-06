@@ -144,10 +144,12 @@ main{
     max-width: 100%;
     border-radius: 50%;
     display: block;
+    
 }
 
 .user-name{
     color: rgb(222, 221, 221);
+    margin-top:15px;
 }
 
 .pic-name{
@@ -174,6 +176,8 @@ main{
 }
 .info{
     display: flex;
+    flex-direction: row;
+     column-gap: 5px;
 }
 
 .git-id{

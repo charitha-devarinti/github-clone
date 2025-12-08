@@ -208,13 +208,13 @@ main{
     text-decoration: none;
 }
 
-.icon-link{
-    text-decoration: none;
-}
+
 
 .icon-link{
     margin-right:5px;
     margin-bottom: 20px;
+    cursor: pointer;
+    
 }
 
 .icon-link:hover{

@@ -1,9 +1,7 @@
 const params= new URLSearchParams(window.location.search);
 const username=params.get("username");
 
-const filterItem= document.querySelector('.filter-input');
-
-
+/*
 async function fetchingCurrentuser(username){
   const response= await fetch(`https://api.github.com/users/${username}`)
   if(!response.ok){
@@ -12,6 +10,10 @@ async function fetchingCurrentuser(username){
   const data= await response.json();
   console.log(data)
 }
+
+*/
+
+
 
 
 async function getUsers(username){
@@ -43,6 +45,7 @@ function headerUserPicName(data){
 function displayingUserData(data){
   const userProfileEle= document.querySelector('.main-left')
    const repoCount=document.querySelector('.repo-count')
+   
   userProfileEle.innerHTML=`
         <img class="user-profile" src=${data.avatar_url}>
        <h2 class="user-name">${data.name}</h2>
@@ -80,69 +83,46 @@ function displayingUserData(data){
 } 
 
 
-async function userRepos( username){
-    try{
-        const response= await fetch(`https://api.github.com/users/${username}/repos`);
-         if(!response.ok){
-            throw new Error('Request failed')
-         }
-         const data= await response.json()
-        
-        displayingUserRepos(data)
-    }catch(error){
-        console.log(error)
-    }
-
-}
-
-function displayingUserRepos(data){
-    const repoInfo= document.querySelector('.repos-all');
-      repoInfo.innerHTML='';
-      data.forEach((repo)=>{
-        repoInfo.innerHTML += `
-            <div class="each-repo">
-            <div class="repo-and-status">
-              <h3 class="repo-name">${repo.name}</h3>
-              <p class="repo-status">Public</p>
-            </div>
-            <div class="skill-and-star">
-              <div class="color-and-skill">
-                  <div class="color-circle"></div>
-                  <p class="used-skill">${repo['language'] ? repo['language']:'Not Available'}</p>
-              </div>
-              <div class="star-num">
-                   <i class="fa-regular fa-star star-icon"></i>
-                   <p class="star-count">${repo.stargazers_count}</p> 
-              </div>
-            </div>
-            <div class="just-border"></div>
-       </div>
-        
-        `
-      })
-}
-
-
-function filterRepos(e){
-  const repoItems= document.querySelectorAll('.repos-all .each-repo')
-  const filterItem=e.target.value.toLowerCase();
- console.log(filterItem)
- repoItems.forEach((repo)=>{
-      const repoName= repo.querySelector('.repo-name').textContent.toLowerCase();
-     
-      if(repoName.includes(filterItem)){
-        repo.style.display='block';
-      }else{
-        repo.style.display='none'
+async function getFollowers(username){
+try{
+      const response= fetch(`https://api.github.com/users/${username}/followers`)
+      if(!response.ok){
+        throw new Error('Requested failed')
       }
-      
+      const data=(await response).json()
      
- })
+      displayFollowers(data)
+
+}catch(err){
+  console.log(err)
+
 }
 
+}
 
+function displayFollowers(data){
+  const followersEle=document.querySelector('.follower-right')
+  followersEle.innerHTML='';
+  
+  data.forEach((follower)=>{
+    follower.innerHTML += `
+         <div class="follower-container">
+           <div class="about-follower">
+            <div class="image-user">
+            <img src=${follower.avatar_url} class="image">
+            <p class="follower-name">${follower.login}</p>
+            </div>
+            <button class="repo-follow-btn">Follow</button>
+          </div>
+           <div class="just-border"></div>
+        </div>
+    
+    `
+  })
 
-filterItem.addEventListener('input',filterRepos)
-fetchingCurrentuser(username)
+ 
+
+}
+
+getFollowers(username)
 getUsers(username)
-userRepos(username)

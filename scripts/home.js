@@ -2,6 +2,7 @@ const searchBtnEle=document.querySelector('.search-btn');
 const repoTab=document.querySelector('.repo')
 const searchEle=document.querySelector('.search-user')
 
+
 searchBtnEle.addEventListener('click',()=>{
   
   const searchValue=searchEle.value.trim()
@@ -22,6 +23,9 @@ repoTab.addEventListener('click',()=>{
 function openRepository(currentUserName){
   window.location.href=`repository.html?username=${currentUserName}`
 }
+
+
+
 
 
 
@@ -63,9 +67,9 @@ function displayingUserData(data){
        <p class="pic-name">${data.login}</p>
       <button class="follow-btn">Follow</button>
        <div class="follow-data">
-          <a href="#" class="icon-link">
+          <p class="icon-link">
              <i class="fa-solid fa-users icon"></i> ${data.followers > 1000 ? data.followers/1000 + '.K':data.followers} <span class="color-change"> followers</span>
-        </a>
+        </p>
           <div class="info-followers">
              <a href="#" class="following-link" > .${data.following > 1000 ? data.following/1000+'.K':data.following} <span class="color-change">following</span> </a>
           </div>
@@ -91,8 +95,31 @@ function displayingUserData(data){
   
   `
 
-  repoCount.innerHTML=`${data.public_repos}`
+  repoCount.innerText=`${data.public_repos}`
+  
+  
+//connecting to followers page
+
+   const followersEle=document.querySelector('.icon-link')
+
+  followersEle.addEventListener('click',()=>{
+       openFollowers(searchEle.value.trim())
+})
+
+
 } 
+
+
+
+function openFollowers(currentUserName){
+  //console.log(currentUserName)
+    window.location.href=`followers.html?username=${currentUserName}`
+}
+
+
+
+
+
 
 
 async function userPopularRepos( username){

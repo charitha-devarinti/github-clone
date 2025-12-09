@@ -3,6 +3,8 @@ const username=params.get("username");
 
 const filterItem= document.querySelector('.filter-input');
 
+let currentPage=1;
+const perPage=20;
 
 async function fetchingCurrentuser(username){
   const response= await fetch(`https://api.github.com/users/${username}`)
@@ -80,18 +82,29 @@ function displayingUserData(data){
 } 
 
 
-async function userRepos( username){
+async function userRepos( username,page=1){
     try{
-        const response= await fetch(`https://api.github.com/users/${username}/repos`);
+        const response= await fetch(`https://api.github.com/users/${username}/repos?per_page=${perPage}&page=${page}`);
          if(!response.ok){
             throw new Error('Request failed')
          }
          const data= await response.json()
         
         displayingUserRepos(data)
+        updatePaginationButtons(data.length)
     }catch(error){
         console.log(error)
     }
+
+} 
+
+function updatePaginationButtons(count){
+    const prevBtn=document.querySelector('.prevBtn');
+    const nextBtn=document.querySelector('.nextBtn')
+     
+    prevBtn.disabled=currentPage===1
+
+    nextBtn.disabled= count < perPage;
 
 }
 
@@ -143,6 +156,23 @@ function filterRepos(e){
 
 
 filterItem.addEventListener('input',filterRepos)
-fetchingCurrentuser(username)
-getUsers(username)
-userRepos(username)
+
+
+document.addEventListener('DOMContentLoaded',()=>{
+    fetchingCurrentuser(username)
+    getUsers(username)
+    userRepos(username)
+
+    document.querySelector('.prevBtn').addEventListener('click',()=>{
+      if(currentPage >1){
+        currentPage--;
+        userRepos(username,currentPage)
+      }
+    })
+
+    document.querySelector('.nextBtn').addEventListener('click',()=>{
+      
+      currentPage++;
+      userRepos(username,currentPage)
+    })
+})

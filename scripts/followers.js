@@ -1,6 +1,9 @@
 const params= new URLSearchParams(window.location.search);
 const username=params.get("username");
 
+let currentPage=1;
+const perPage=15;
+
 /*
 async function fetchingCurrentuser(username){
   const response= await fetch(`https://api.github.com/users/${username}`)
@@ -40,6 +43,8 @@ function headerUserPicName(data){
        <p class="user">${data.name}</p>
       `
 }
+
+
 
 
 function displayingUserData(data){
@@ -83,15 +88,17 @@ function displayingUserData(data){
 } 
 
 
-async function getFollowers(username){
+async function getFollowers(username,page=1){
 try{
-      const response= fetch(`https://api.github.com/users/${username}/followers`)
+      const response= await fetch(`https://api.github.com/users/${username}/followers?per_page=${perPage}&page=${page}`)
       if(!response.ok){
         throw new Error('Requested failed')
       }
-      const data=(await response).json()
+      const data=await response.json()
      
       displayFollowers(data)
+     // console.log(data.length)
+      updatePaginationButtons(data.length)
 
 }catch(err){
   console.log(err)
@@ -100,12 +107,27 @@ try{
 
 }
 
+function updatePaginationButtons(count){
+      const prevBtn=document.getElementById('prevBtn');
+      const nextBtn=document.getElementById('nextbtn');
+
+      // disabling previous on page 1
+      prevBtn.disabled = currentPage === 1
+      
+      // if fwwer items returned than perpage number --> means last page
+      nextBtn.disabled= count < perPage;
+      
+      
+}
+
+
+
 function displayFollowers(data){
   const followersEle=document.querySelector('.follower-right')
   followersEle.innerHTML='';
   
   data.forEach((follower)=>{
-    follower.innerHTML += `
+    followersEle.innerHTML += `
          <div class="follower-container">
            <div class="about-follower">
             <div class="image-user">
@@ -120,9 +142,54 @@ function displayFollowers(data){
     `
   })
 
- 
+  /* repos following button  */
+
+  const repoFollowBtns=document.querySelectorAll('.repo-follow-btn');
+  let status=true;
+
+  repoFollowBtns.forEach((followBtn)=>{
+
+   let status=false
+
+    followBtn.addEventListener('click',()=>{
+      
+        if(status === true){
+          followBtn.innerText='Follow'
+          followBtn.style.backgroundColor='rgb(32, 32, 32)';
+          status=false;
+        }else{
+          followBtn.innerText='Following'
+          followBtn.style.backgroundColor='rgba(68, 67, 67, 1)';
+          status=true;
+        } 
+      
+    })
+  })
+  
 
 }
 
-getFollowers(username)
-getUsers(username)
+
+document.addEventListener('DOMContentLoaded',()=>{
+  
+   getFollowers(username)
+   getUsers(username)
+
+   //adding buttons logic
+
+
+document.getElementById('prevBtn').addEventListener('click',()=>{
+  if(currentPage > 1){
+    currentPage--;
+    getFollowers(username,currentPage)
+  }
+})
+
+document.getElementById('nextbtn').addEventListener('click',()=>{
+    currentPage++;
+    getFollowers(username,currentPage)
+})
+
+
+
+})

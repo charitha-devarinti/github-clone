@@ -245,3 +245,25 @@ main{
     margin-top:15px;
     margin-bottom:30px;
 }
+
+.pagination{
+    display: flex;
+    justify-content: center;
+}
+
+#prevBtn,#nextbtn{
+    font-size:14px;
+    font-weight:bold;
+    border:none;
+    cursor: pointer;
+    margin-right:20px;
+    border:1px solid rgb(156, 156, 156);
+    border-radius: 5px;
+    padding: 10px;
+    transition: all 0.1s ease;
+}
+
+#prevBtn:hover,#nextbtn:hover{
+   
+   background-color: rgb(42, 41, 41);
+}

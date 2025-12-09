@@ -300,3 +300,26 @@ main{
     color: rgb(111, 111, 111);
 }
 
+.pagination{
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.prevBtn,.nextBtn{
+    font-size:14px;
+    font-weight:bold;
+    border:none;
+    cursor: pointer;
+    margin-right:20px;
+    border:1px solid rgb(156, 156, 156);
+    border-radius: 5px;
+    padding: 10px;
+    transition: all 0.1s ease;
+}
+
+.prevBtn:hover,.nextBtn:hover{
+   
+   background-color: rgb(42, 41, 41);
+}

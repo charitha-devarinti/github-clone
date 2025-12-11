@@ -133,6 +133,15 @@ function displayingUserRepos(data){
         
         `
       })
+
+      //adding links to repositories
+      const repoNameEle=document.querySelectorAll('.repo-name');
+       repoNameEle.forEach((repo)=>{
+           repo.addEventListener('click',()=>{
+             // console.log(username,repo.innerText)
+             window.location.href=`https://github.com/${username}/${repo.innerText}`
+           })
+       })
 }
 
 

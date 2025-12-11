@@ -24,13 +24,6 @@ function openRepository(currentUserName){
   window.location.href=`repository.html?username=${currentUserName}`
 }
 
-
-
-
-
-
-
-
 async function getUsers(username){
    try{
     const response = await fetch(`https://api.github.com/users/${username}`)
@@ -155,7 +148,7 @@ function displayingPopularRepos(data){
         repoInfo.innerHTML += `
         <div class="repo-info">
          <div class="repo-title">
-            <a href="#" class="repo-link">${repo.name}</a>
+            <p  class="repo-link">${repo.name}</p>
             <p class="status">Public</p>
          </div>
         <div class="repo-languages">
@@ -166,6 +159,16 @@ function displayingPopularRepos(data){
         
         `
        
+      })
+
+      // adding links to repositories
+
+      const repoLink=document.querySelectorAll('.repo-link')
+      repoLink.forEach(repo =>{
+        repo.addEventListener('click',()=>{
+           // console.log(searchEle.value.trim(),repo.innerText)
+            window.location.href=`https://github.com/${searchEle.value.trim()}/${repo.innerText}`
+        })
       })
 }
 

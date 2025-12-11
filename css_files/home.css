@@ -252,6 +252,7 @@ main{
 .repo-link{
     text-decoration: none;
    color: #336BB3;
+   cursor: pointer;
 }
 
 .status{

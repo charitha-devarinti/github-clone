@@ -106,6 +106,12 @@ function displayingUserData(data){
        openFollowers(searchEle.value.trim())
 })
 
+// connecting to following page
+   
+const followingEle=document.querySelector('.info-followers')
+followingEle.addEventListener('click',()=>{
+      openFollowing(searchEle.value.trim())
+})
 
 } 
 
@@ -116,6 +122,10 @@ function openFollowers(currentUserName){
     window.location.href=`followers.html?username=${currentUserName}`
 }
 
+function openFollowing(currentUserName){
+  //console.log(currentUserName)
+  window.location.href=`following-page.html?username=${currentUserName}`
+}
 
 
 

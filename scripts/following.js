@@ -1,22 +1,8 @@
-const params= new URLSearchParams(window.location.search);
-const username=params.get("username");
+const params=new URLSearchParams(window.location.search);
+const username=params.get('username');
 
 let currentPage=1;
-const perPage=15;
-
-/*
-async function fetchingCurrentuser(username){
-  const response= await fetch(`https://api.github.com/users/${username}`)
-  if(!response.ok){
-    throw new Error('Request failed')
-  }
-  const data= await response.json();
-  console.log(data)
-}
-
-*/
-
-
+const perPage=20;
 
 
 async function getUsers(username){
@@ -25,10 +11,8 @@ async function getUsers(username){
       if(!response.ok){
         throw new Error('Requested failed')
       }
-      const data=await response.json()
-       //----------------
-     
-       //---------------
+      const data= await response.json()
+      
        displayingUserData(data) ;
        headerUserPicName(data)
    }catch(error){
@@ -88,61 +72,54 @@ function displayingUserData(data){
 } 
 
 
-async function getFollowers(username,page=1){
-try{
-      const response= await fetch(`https://api.github.com/users/${username}/followers?per_page=${perPage}&page=${page}`)
-      if(!response.ok){
-        throw new Error('Requested failed')
-      }
-      const data=await response.json()
-     
-      displayFollowers(data)
-     // console.log(data.length)
+async function getFollowingData(username,page=1){
+    
+    try{
+        const response= await fetch(`https://api.github.com/users/${username}/following?per_page=${perPage}&page=${page}`)
+        if(!response.ok){
+            throw new Error('Request failed')
+        }
+      const data = await response.json()
+      displayFollowingData(data)
       updatePaginationButtons(data.length)
-
 }catch(err){
-  console.log(err)
-
+    console.log(err)
+}
 }
 
-}
 
 function updatePaginationButtons(count){
-      const prevBtn=document.getElementById('prevBtn');
-      const nextBtn=document.getElementById('nextbtn');
-
-      // disabling previous on page 1
-      prevBtn.disabled = currentPage === 1
-      
-      // if fwwer items returned than perpage number --> means last page
-      nextBtn.disabled= count < perPage;
-      
-      
+  const prevBtn=document.querySelector('.prevBtn');
+  const nextBtn=document.querySelector('.nextBtn')
+  prevBtn.disabled=currentPage===1;
+  nextBtn.disabled= count<perPage
 }
 
-
-
-function displayFollowers(data){
-  const followersEle=document.querySelector('.follower-right')
-  followersEle.innerHTML='';
-  
-  data.forEach((follower)=>{
-    followersEle.innerHTML += `
-         <div class="follower-container">
-           <div class="about-follower">
+function displayFollowingData(data){
+    const followingContainer= document.querySelector('.following-data');
+    followingContainer.innerHTML=''
+    data.forEach((following) =>{
+        followingContainer.innerHTML+=`
+        
+         <div class="following-data">
+        <div class="about-follower">
             <div class="image-user">
-            <img src=${follower.avatar_url} class="image">
-            <p class="follower-name">${follower.login}</p>
+            <img src=${following.avatar_url} class="image">
+            <div class="follower-name-location">
+              <p class="follower-name">${following.login}</p>
             </div>
+         </div>
             <button class="repo-follow-btn">Follow</button>
-          </div>
-           <div class="just-border"></div>
         </div>
-    
-    `
-  })
+        <div class="just-border"></div>
+    </div>
+        
+        
+        `
+    })
 
-  /* repos following button  */
+
+    /* repos following button  */
 
   const repoFollowBtns=document.querySelectorAll('.repo-follow-btn');
  
@@ -166,30 +143,26 @@ function displayFollowers(data){
     })
   })
   
+    
 
 }
 
-
 document.addEventListener('DOMContentLoaded',()=>{
-  
-   getFollowers(username)
-   getUsers(username)
+    getFollowingData(username)
+    getUsers(username)
 
-   //adding buttons logic
+    document.querySelector('.prevBtn').addEventListener('click',()=>{
+        if(currentPage > 1){
+            currentPage --
+            getFollowingData(username,currentPage)
+        }
+    })
 
-
-document.getElementById('prevBtn').addEventListener('click',()=>{
-  if(currentPage > 1){
-    currentPage--;
-    getFollowers(username,currentPage)
-  }
-})
-
-document.getElementById('nextbtn').addEventListener('click',()=>{
-    currentPage++;
-    getFollowers(username,currentPage)
-})
-
-
+    document.querySelector('.nextBtn').addEventListener('click',()=>{
+        currentPage++;
+        getFollowingData(username,currentPage)
+    })
 
 })
+   
+

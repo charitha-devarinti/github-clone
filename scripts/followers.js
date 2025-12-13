@@ -1,7 +1,10 @@
 const params= new URLSearchParams(window.location.search);
 const username=params.get("username");
 const viewTab=document.querySelector('.view');
-const repoTab=document.querySelector('.repo')
+const repoTab=document.querySelector('.repo');
+const loaderEle=document.querySelector('#loader');
+const mainEle=document.querySelector('#mainContent');
+const errorEle=document.querySelector('#errorcontainer');
 
 let currentPage=1;
 const perPage=15;
@@ -27,6 +30,68 @@ function openRepository(currentUserName){
 }
 
 
+async function fetchUser(username) {
+  const res=await fetch(`https://api.github.com/users/${username}`,{
+      headers:{
+         Authorization: `token ${GITHUB_TOKEN}`
+      }
+    })
+
+     if(!res.ok){
+      throw new Error('Request failed try again')
+    }
+
+    return await res.json()
+  
+}
+
+
+async function fetchFollowers(username,page) {
+  const res=await fetch(`https://api.github.com/users/${username}/followers?per_page=${perPage}&page=${page}`,{
+      headers:{
+         Authorization: `token ${GITHUB_TOKEN}`
+      }
+    })
+
+     if(!res.ok){
+      throw new Error('Request failed try again')
+    }
+
+    return await res.json()
+  
+}
+
+
+async function userData() {
+  mainEle.classList.add('hidden')
+  loaderEle.style.display='flex';
+   try{
+    const [userData,followersData]= await Promise.all([
+      fetchUser(username),
+      fetchFollowers(username,currentPage)
+    ]);
+       
+    //console.log(userData);
+    //console.log(reposData)
+    displayingUserData(userData);
+    headerUserPicName(userData);
+     displayFollowers(followersData)
+     // console.log(data.length)
+      updatePaginationButtons(followersData.length)
+
+   }catch(err){
+      errorEle.querySelector('#errorMessage').innerText=`${err.message}`
+      errorEle.querySelector('.retryBtn').addEventListener('click',()=>location.reload())
+      errorEle.style.display='flex';
+   }finally{
+      loaderEle.style.display='none';
+      mainEle.classList.remove('hidden');
+   }
+}
+
+
+
+/*
 async function getUsers(username){
    try{
     const response = await fetch(`https://api.github.com/users/${username}`,{
@@ -45,12 +110,15 @@ async function getUsers(username){
    }
 }
 
+*/
+
 function headerUserPicName(data){
       const headerLeftEle=document.querySelector('.left');
       headerLeftEle.innerHTML=`
        <img src=${data.avatar_url} class="user-pic">
        <p class="user">${data.name}</p>
       `
+      document.querySelector('.user').addEventListener('click',()=>openOverviewPage(username))
 }
 
 
@@ -95,6 +163,24 @@ function displayingUserData(data){
   `
   repoCount.innerText=`${data.public_repos}`
 
+
+  const followButton= document.querySelector('.follow-btn')
+  
+     let status=false;
+   followButton.addEventListener('click',()=>{
+      
+        if(status === true){
+          followButton.innerText='Follow'
+          followButton.style.backgroundColor='rgb(32, 32, 32)';
+          status=false;
+        }else{
+          followButton.innerText='Following'
+          followButton.style.backgroundColor='rgba(68, 67, 67, 1)';
+          status=true;
+        } 
+      
+    })
+
   
    // connecting to following page
    const followingEle=document.querySelector('.info-followers');
@@ -109,7 +195,7 @@ function displayingUserData(data){
 }
 
 
-
+/*
 async function getFollowers(username,page=1){
 try{
       const response= await fetch(`https://api.github.com/users/${username}/followers?per_page=${perPage}&page=${page}`,{
@@ -132,6 +218,8 @@ try{
 }
 
 }
+
+*/
 
 function updatePaginationButtons(count){
       const prevBtn=document.getElementById('prevBtn');
@@ -212,8 +300,10 @@ function displayFollowers(data){
 
 document.addEventListener('DOMContentLoaded',()=>{
   
-   getFollowers(username)
-   getUsers(username)
+  //  getFollowers(username)
+  //  getUsers(username)
+
+  userData()
 
    //adding buttons logic
 
@@ -221,13 +311,15 @@ document.addEventListener('DOMContentLoaded',()=>{
 document.getElementById('prevBtn').addEventListener('click',()=>{
   if(currentPage > 1){
     currentPage--;
-    getFollowers(username,currentPage)
+   // getFollowers(username,currentPage)
+   userData()
   }
 })
 
 document.getElementById('nextbtn').addEventListener('click',()=>{
     currentPage++;
-    getFollowers(username,currentPage)
+    //getFollowers(username,currentPage)
+    userData()
 })
 
 

@@ -1,7 +1,10 @@
 const params=new URLSearchParams(window.location.search);
 const username=params.get('username');
 const viewTab=document.querySelector('.view');
-const repoTab=document.querySelector('.repo')
+const repoTab=document.querySelector('.repo');
+const loaderEle=document.querySelector('#loader');
+const mainEle=document.querySelector('#mainContent');
+const errorEle=document.querySelector('#errorcontainer');
 
 let currentPage=1;
 const perPage=20;
@@ -27,7 +30,66 @@ function openRepository(currentUserName){
 }
 
 
+async function fetchUser(username) {
+  const res=await fetch(`https://api.github.com/users/${username}`,{
+      headers:{
+         Authorization: `token ${GITHUB_TOKEN}`
+      }
+    })
 
+     if(!res.ok){
+      throw new Error('Request failed try again')
+    }
+
+    return await res.json()
+  
+}
+
+
+async function fetchFollowings(username,page) {
+  const res=await fetch(`https://api.github.com/users/${username}/following?per_page=${perPage}&page=${page}`,{
+      headers:{
+         Authorization: `token ${GITHUB_TOKEN}`
+      }
+    })
+
+     if(!res.ok){
+      throw new Error('Request failed try again')
+    }
+
+    return await res.json()
+  
+}
+
+
+async function userData() {
+   mainEle.classList.add('hidden')
+  loaderEle.style.display='flex';
+   try{
+    const [userData,followingsData]= await Promise.all([
+      fetchUser(username),
+      fetchFollowings(username,currentPage)
+    ]);
+       
+    //console.log(userData);
+    //console.log(reposData)
+    displayingUserData(userData);
+    headerUserPicName(userData);
+     displayFollowingData(followingsData)
+    updatePaginationButtons(followingsData.length)
+
+   }catch(err){
+      errorEle.querySelector('#errorMessage').innerText=`${err.message}`
+      errorEle.querySelector('.retryBtn').addEventListener('click',()=>location.reload())
+      errorEle.style.display='flex';
+   }finally{
+      loaderEle.style.display='none';
+      mainEle.classList.remove('hidden');
+   }
+}
+
+
+/*
 async function getUsers(username){
    try{
     const response = await fetch(`https://api.github.com/users/${username}`,{
@@ -47,12 +109,15 @@ async function getUsers(username){
    }
 }
 
+*/
+
 function headerUserPicName(data){
       const headerLeftEle=document.querySelector('.left');
       headerLeftEle.innerHTML=`
        <img src=${data.avatar_url} class="user-pic">
        <p class="user">${data.name}</p>
       `
+      document.querySelector('.user').addEventListener('click',()=>openOverviewPage(username))
 }
 
 
@@ -97,6 +162,24 @@ function displayingUserData(data){
   `
   repoCount.innerText=`${data.public_repos}`
 
+
+  const followButton= document.querySelector('.follow-btn')
+  
+      let status=false;
+   followButton.addEventListener('click',()=>{
+      
+        if(status === true){
+          followButton.innerText='Follow'
+          followButton.style.backgroundColor='rgb(32, 32, 32)';
+          status=false;
+        }else{
+          followButton.innerText='Following'
+          followButton.style.backgroundColor='rgba(68, 67, 67, 1)';
+          status=true;
+        } 
+      
+    })
+
    //connecting to followers page
    const followersEle=document.querySelector('.icon-link');
    followersEle.addEventListener('click',()=>{
@@ -114,7 +197,7 @@ function displayingUserData(data){
 }
 
 
-
+/*
 async function getFollowingData(username,page=1){
     
     try{
@@ -133,6 +216,8 @@ async function getFollowingData(username,page=1){
     console.log(err)
 }
 }
+
+*/
 
 
 function updatePaginationButtons(count){
@@ -186,7 +271,7 @@ function displayFollowingData(data){
 
   repoFollowBtns.forEach((followBtn)=>{
 
-   let status=false
+   let status=false;
 
     followBtn.addEventListener('click',()=>{
       
@@ -208,19 +293,22 @@ function displayFollowingData(data){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
-    getFollowingData(username)
-    getUsers(username)
+    // getFollowingData(username)
+    // getUsers(username)
+    userData()
 
     document.querySelector('.prevBtn').addEventListener('click',()=>{
         if(currentPage > 1){
             currentPage --
-            getFollowingData(username,currentPage)
+           // getFollowingData(username,currentPage)
+           userData()
         }
     })
 
     document.querySelector('.nextBtn').addEventListener('click',()=>{
         currentPage++;
-        getFollowingData(username,currentPage)
+        //getFollowingData(username,currentPage)
+        userData()
     })
 
 })

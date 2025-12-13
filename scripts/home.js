@@ -4,7 +4,9 @@ const loginName=params.get("username");
 const searchBtnEle=document.querySelector('.search-btn');
 const repoTab=document.querySelector('.repo')
 const searchEle=document.querySelector('.search-user');
-
+const loaderEle=document.querySelector('#loader');
+const mainEle=document.querySelector('#mainContent');
+const errorEle=document.querySelector('#errorcontainer')
 
 
 searchBtnEle.addEventListener('click',()=>{
@@ -14,8 +16,9 @@ searchBtnEle.addEventListener('click',()=>{
       alert('Enter a user name...')
       return;
     }
-     getUsers(searchValue || loginName)
-     userPopularRepos(searchValue || loginName)
+      userData(searchValue || loginName)
+    // getUsers(searchValue || loginName)
+    // userPopularRepos(searchValue || loginName)
 })
 
 // connecting to repository page
@@ -30,9 +33,47 @@ function openRepository(currentUserName){
 
 
 
+async function userData(username) {
+  const  headers={
+         Authorization: `token ${GITHUB_TOKEN}`
+      }
+  mainEle.classList.add('hidden')
+  loaderEle.style.display='flex';
+   try{
+      const[userResponse,reposResponse]= await Promise.all([
+        fetch(`https://api.github.com/users/${username}`,{headers}),
+        fetch(`https://api.github.com/users/${username}/repos?per_page=6`,{headers})
+      ])
+      if(!userResponse.ok){
+        throw new Error('ooops...User not found!')
+      }
+      if(!reposResponse.ok){
+        throw new Error('Unable to fetch repositories')
+      }
+      const userData=await userResponse.json();
+      const reposData= await reposResponse.json();
+       displayingUserData(userData) ;
+       headerUserPicName(userData);
+       displayingPopularRepos(reposData);
+
+   }catch(err){
+
+         errorEle.querySelector('#errorMessage').innerText=`${err.message}`
+         errorEle.querySelector('.retryBtn').addEventListener('click',()=>location.reload())
+    
+         
+         errorEle.style.display='flex';
+     
+      
+   }finally{
+      loaderEle.style.display='none';
+      mainEle.classList.remove('hidden');
+      
+   }
+}
 
 
-
+/*
 async function getUsers(username){
    try{
     const response = await fetch(`https://api.github.com/users/${username}`,{
@@ -51,6 +92,7 @@ async function getUsers(username){
    }
 }
 
+*/
 
 function headerUserPicName(data){
       const headerLeftEle=document.querySelector('.left');
@@ -99,6 +141,23 @@ function displayingUserData(data){
   `
 
   repoCount.innerText=`${data.public_repos}`
+
+ const followButton= document.querySelector('.follow-btn')
+  
+ let status=false;
+   followButton.addEventListener('click',()=>{
+      
+        if(status === true){
+          followButton.innerText='Follow'
+          followButton.style.backgroundColor='rgb(32, 32, 32)';
+          status=false;
+        }else{
+          followButton.innerText='Following'
+          followButton.style.backgroundColor='rgba(68, 67, 67, 1)';
+          status=true;
+        } 
+      
+    })
   
   
 //connecting to followers page
@@ -137,7 +196,7 @@ function openFollowing(currentUserName){
 
 
 
-
+/*
 async function userPopularRepos(username){
     try{
         const response= await fetch(`https://api.github.com/users/${username}/repos?per_page=6`,{
@@ -151,11 +210,13 @@ async function userPopularRepos(username){
          const data= await response.json()
         
         displayingPopularRepos(data)
+
     }catch(error){
         console.log(error)
     }
 
 }
+    */
 
 function displayingPopularRepos(data){
     const repoInfo= document.querySelector('.repo-grid')
@@ -195,9 +256,16 @@ function displayingPopularRepos(data){
 document.addEventListener('DOMContentLoaded',()=>{
               
           if(loginName){
-              getUsers(loginName);
-              userPopularRepos(loginName)
+              userData(loginName)
+             // getUsers(loginName);
+             // userPopularRepos(loginName)
           }
+        
+     if(!sessionStorage.getItem('alertShown')){
+        alert(`First search for a user in search box....
+               at first it shows dummy one..`)
+        sessionStorage.setItem('alertShown',"true")
+     }
 
 })
 

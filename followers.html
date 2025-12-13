@@ -39,14 +39,13 @@
          <div class="one star">
             <i class="fa-regular fa-star icon"></i>
             <p  class="name">Stars</p>
-            <p class="count">4</p>
         </div>
           
      </div> 
     </nav>
    </div>
   
-   <main>
+   <main id="mainContent">
        <div class="main-left">
 
 
@@ -102,6 +101,16 @@
         <span class="pageNum"></span>
        <button id="nextbtn">Next</button>
  </div>
+
+  <div id="loader" style="display: none;">
+      <img src="image.png" class="loading-image">
+  </div>
+  
+   <div id="errorcontainer" style="display: none;">
+      <p id="errorMessage"></p>
+      <button class='retryBtn'>Retry</button> 
+   </div>
+
 
   <script src="scripts/config.js"></script>
    <script src="scripts/followers.js"></script>

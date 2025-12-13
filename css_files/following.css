@@ -35,6 +35,9 @@ header{
     border-radius:50%;
    margin-right:20px;
 }
+.user{
+    cursor: pointer;
+}
 
 .right{
     margin-right:100px;
@@ -69,6 +72,14 @@ nav{
 .one:hover{
     background-color: rgb(27, 26, 26);
     border-radius:5px;
+}
+
+.project{
+    cursor:none;
+}
+
+.package{
+    cursor:none;
 }
 
 .icon{
@@ -311,3 +322,58 @@ main{
 }
 
 
+
+/*    loading image */
+
+#loader{
+    position:fixed;
+    height:100vh;
+    width:100vw;
+    top:0;
+    left:0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index:100;
+    
+}
+
+
+.loading-image{
+    width:70px;
+}
+
+.hidden{
+    display: none;
+}
+
+
+#errorcontainer{
+    position:fixed;
+     height:100vh;
+    width:100vw;
+     top:0;
+    left:0;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    justify-content: center;
+    align-items: center;
+    z-index:100;
+    font-size:24px;
+    color:white;
+}
+
+.retryBtn{
+   
+    font-size: 16px;
+    cursor: pointer;
+    padding:10px 15px;
+    border-radius:5px;
+    border:1px solid grey;
+    transition: background-color 0.1s;
+}
+
+.retryBtn:hover{
+    background-color: rgb(89, 89, 89);
+}

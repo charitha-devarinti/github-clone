@@ -100,6 +100,7 @@ nav{
     position: absolute;
     bottom:0px;
     margin-left:9;
+    left:13%;
 }
 
 
@@ -306,6 +307,8 @@ main{
     justify-content: center;
     padding-top: 20px;
     padding-bottom: 20px;
+    align-items: center;
+    column-gap: 10px;
 }
 
 .prevBtn,.nextBtn{
@@ -313,7 +316,6 @@ main{
     font-weight:bold;
     border:none;
     cursor: pointer;
-    margin-right:20px;
     border:1px solid rgb(156, 156, 156);
     border-radius: 5px;
     padding: 10px;

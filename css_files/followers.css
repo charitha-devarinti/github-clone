@@ -183,6 +183,16 @@ main{
 .icon-link{
     margin-right:5px;
     margin-bottom: 20px;
+    
+}
+
+.followersColor{
+    color: blue;
+    transition: color 0.1s ease-in-out;
+}
+
+.icon-link:hover .followersColor{
+    color:white;
 }
 
 .icon-link:hover{
@@ -216,6 +226,7 @@ main{
 .follower-name{
      font-size:15px;
      color: rgb(160, 160, 160);
+     cursor: pointer;
 }
 
 .image{
@@ -249,6 +260,10 @@ main{
 .pagination{
     display: flex;
     justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    align-items: center;
+    column-gap: 10px;
 }
 
 #prevBtn,#nextbtn{
@@ -256,7 +271,6 @@ main{
     font-weight:bold;
     border:none;
     cursor: pointer;
-    margin-right:20px;
     border:1px solid rgb(156, 156, 156);
     border-radius: 5px;
     padding: 10px;

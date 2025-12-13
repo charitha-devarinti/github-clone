@@ -1,6 +1,10 @@
+const params= new URLSearchParams(window.location.search);
+const loginName=params.get("username");
+
 const searchBtnEle=document.querySelector('.search-btn');
 const repoTab=document.querySelector('.repo')
-const searchEle=document.querySelector('.search-user')
+const searchEle=document.querySelector('.search-user');
+
 
 
 searchBtnEle.addEventListener('click',()=>{
@@ -10,30 +14,36 @@ searchBtnEle.addEventListener('click',()=>{
       alert('Enter a user name...')
       return;
     }
-     getUsers(searchValue)
-     userPopularRepos(searchValue)
+     getUsers(searchValue || loginName)
+     userPopularRepos(searchValue || loginName)
 })
 
 // connecting to repository page
 
 repoTab.addEventListener('click',()=>{
-     openRepository(searchEle.value.trim())
+     openRepository(searchEle.value.trim() || loginName)
 })
 
 function openRepository(currentUserName){
   window.location.href=`repository.html?username=${currentUserName}`
 }
 
+
+
+
+
+
 async function getUsers(username){
    try{
-    const response = await fetch(`https://api.github.com/users/${username}`)
+    const response = await fetch(`https://api.github.com/users/${username}`,{
+      headers:{
+         Authorization: `token ${GITHUB_TOKEN}`
+      }
+    })
       if(!response.ok){
         throw new Error('Requested failed')
       }
-      const data=await response.json()
-       //----------------
-     
-       //---------------
+      const data=await response.json();
        displayingUserData(data) ;
        headerUserPicName(data)
    }catch(error){
@@ -96,17 +106,20 @@ function displayingUserData(data){
    const followersEle=document.querySelector('.icon-link')
 
   followersEle.addEventListener('click',()=>{
-       openFollowers(searchEle.value.trim())
+
+       openFollowers(searchEle.value.trim() || loginName)
 })
 
 // connecting to following page
    
 const followingEle=document.querySelector('.info-followers')
 followingEle.addEventListener('click',()=>{
-      openFollowing(searchEle.value.trim())
+      openFollowing(searchEle.value.trim() || loginName)
 })
 
 } 
+
+
 
 
 
@@ -125,9 +138,13 @@ function openFollowing(currentUserName){
 
 
 
-async function userPopularRepos( username){
+async function userPopularRepos(username){
     try{
-        const response= await fetch(`https://api.github.com/users/${username}/repos?per_page=6`);
+        const response= await fetch(`https://api.github.com/users/${username}/repos?per_page=6`,{
+      headers:{
+         Authorization: `token ${GITHUB_TOKEN}`
+      }
+    });
          if(!response.ok){
             throw new Error('Request failed')
          }
@@ -169,6 +186,19 @@ function displayingPopularRepos(data){
            // console.log(searchEle.value.trim(),repo.innerText)
             window.location.href=`https://github.com/${searchEle.value.trim()}/${repo.innerText}`
         })
+        
       })
 }
+
+
+
+document.addEventListener('DOMContentLoaded',()=>{
+              
+          if(loginName){
+              getUsers(loginName);
+              userPopularRepos(loginName)
+          }
+
+})
+
 

@@ -1,13 +1,40 @@
 const params=new URLSearchParams(window.location.search);
 const username=params.get('username');
+const viewTab=document.querySelector('.view');
+const repoTab=document.querySelector('.repo')
 
 let currentPage=1;
 const perPage=20;
 
+// connecting to overView page
+
+viewTab.addEventListener('click',()=>{
+    openOverviewPage(username)
+})
+
+function openOverviewPage(username){
+    window.location.href=`index.html?username=${username}`
+}
+
+// connecting to repository page
+
+repoTab.addEventListener('click',()=>{
+     openRepository(username)
+})
+
+function openRepository(currentUserName){
+  window.location.href=`repository.html?username=${currentUserName}`
+}
+
+
 
 async function getUsers(username){
    try{
-    const response = await fetch(`https://api.github.com/users/${username}`)
+    const response = await fetch(`https://api.github.com/users/${username}`,{
+      headers:{
+         Authorization: `token ${GITHUB_TOKEN}`
+      }
+    })
       if(!response.ok){
         throw new Error('Requested failed')
       }
@@ -45,7 +72,7 @@ function displayingUserData(data){
              <i class="fa-solid fa-users icon"></i> ${data.followers > 1000 ? data.followers/1000 + '.K':data.followers} <span class="color-change"> followers</span>
         </a>
           <div class="info-followers">
-             <a href="#" class="following-link" > .${data.following > 1000 ? data.following/1000+'.K':data.following} <span class="color-change">following</span> </a>
+             <a href="#" class="following-link" > .${data.following > 1000 ? data.following/1000+'.K':data.following} <span class="color-change followingColor">following</span> </a>
           </div>
             
         </div>  
@@ -69,13 +96,33 @@ function displayingUserData(data){
   
   `
   repoCount.innerText=`${data.public_repos}`
+
+   //connecting to followers page
+   const followersEle=document.querySelector('.icon-link');
+   followersEle.addEventListener('click',()=>{
+     openFollowersPage(username)
+     
+   })
+  
+
 } 
+
+
+  function openFollowersPage(username){
+   window.location.href=`followers.html?username=${username}`
+ //console.log(username)
+}
+
 
 
 async function getFollowingData(username,page=1){
     
     try{
-        const response= await fetch(`https://api.github.com/users/${username}/following?per_page=${perPage}&page=${page}`)
+        const response= await fetch(`https://api.github.com/users/${username}/following?per_page=${perPage}&page=${page}`,{
+      headers:{
+         Authorization: `token ${GITHUB_TOKEN}`
+      }
+    })
         if(!response.ok){
             throw new Error('Request failed')
         }
@@ -91,6 +138,10 @@ async function getFollowingData(username,page=1){
 function updatePaginationButtons(count){
   const prevBtn=document.querySelector('.prevBtn');
   const nextBtn=document.querySelector('.nextBtn')
+  const pageNumEle=document.querySelector('.pageNum');
+
+  pageNumEle.innerText=` Page ${currentPage}`
+
   prevBtn.disabled=currentPage===1;
   nextBtn.disabled= count<perPage
 }
@@ -116,6 +167,15 @@ function displayFollowingData(data){
         
         
         `
+       const followingNameEle= document.querySelectorAll('.follower-name');
+
+    followingNameEle.forEach((person)=>{
+      person.addEventListener('click',()=>{
+         openOverviewPage(person.innerText)
+      })
+    })
+   
+
     })
 
 

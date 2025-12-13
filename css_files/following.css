@@ -194,12 +194,23 @@ main{
     margin-bottom: 20px;
 }
 
+
+
 .icon-link:hover{
    color:blue;
 }
 
 .following-link{
   text-decoration: none;
+}
+
+.followingColor{
+    color:blue;
+    transition: color 0.1s ease-in-out;
+}
+
+.following-link:hover .followingColor{
+  color:white;
 }
 
 .following-link:hover{
@@ -225,6 +236,7 @@ main{
 .follower-name{
      font-size:15px;
      color: rgb(160, 160, 160);
+     cursor: pointer;
 }
 
 .follower-name-location{
@@ -276,6 +288,10 @@ main{
 .pagination{
     display: flex;
     justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    align-items: center;
+    column-gap: 10px;
 }
 
 .prevBtn,.nextBtn{
@@ -283,7 +299,6 @@ main{
     font-weight:bold;
     border:none;
     cursor: pointer;
-    margin-right:20px;
     border:1px solid rgb(156, 156, 156);
     border-radius: 5px;
     padding: 10px;

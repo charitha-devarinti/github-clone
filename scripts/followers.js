@@ -1,34 +1,43 @@
 const params= new URLSearchParams(window.location.search);
 const username=params.get("username");
+const viewTab=document.querySelector('.view');
+const repoTab=document.querySelector('.repo')
 
 let currentPage=1;
 const perPage=15;
 
-/*
-async function fetchingCurrentuser(username){
-  const response= await fetch(`https://api.github.com/users/${username}`)
-  if(!response.ok){
-    throw new Error('Request failed')
-  }
-  const data= await response.json();
-  console.log(data)
+// connecting to overView page
+
+viewTab.addEventListener('click',()=>{
+    openOverviewPage(username)
+})
+
+function openOverviewPage(username){
+    window.location.href=`index.html?username=${username}`
 }
 
-*/
+// connecting to repository page
 
+repoTab.addEventListener('click',()=>{
+     openRepository(username)
+})
 
+function openRepository(currentUserName){
+  window.location.href=`repository.html?username=${currentUserName}`
+}
 
 
 async function getUsers(username){
    try{
-    const response = await fetch(`https://api.github.com/users/${username}`)
+    const response = await fetch(`https://api.github.com/users/${username}`,{
+      headers:{
+         Authorization: `token ${GITHUB_TOKEN}`
+      }
+    })
       if(!response.ok){
         throw new Error('Requested failed')
       }
-      const data=await response.json()
-       //----------------
-     
-       //---------------
+      const data=await response.json();
        displayingUserData(data) ;
        headerUserPicName(data)
    }catch(error){
@@ -58,7 +67,7 @@ function displayingUserData(data){
       <button class="follow-btn">Follow</button>
        <div class="follow-data">
           <a href="#" class="icon-link">
-             <i class="fa-solid fa-users icon"></i> ${data.followers > 1000 ? data.followers/1000 + '.K':data.followers} <span class="color-change"> followers</span>
+             <i class="fa-solid fa-users icon"></i> ${data.followers > 1000 ? data.followers/1000 + '.K':data.followers} <span class="color-change followersColor"> followers</span>
         </a>
           <div class="info-followers">
              <a href="#" class="following-link" > .${data.following > 1000 ? data.following/1000+'.K':data.following} <span class="color-change">following</span> </a>
@@ -85,12 +94,29 @@ function displayingUserData(data){
   
   `
   repoCount.innerText=`${data.public_repos}`
+
+  
+   // connecting to following page
+   const followingEle=document.querySelector('.info-followers');
+   followingEle.addEventListener('click',()=>{
+        openFollowingPage(username)
+   })
+
 } 
+
+ function openFollowingPage(username){
+    window.location.href=`following-page.html?username=${username}`
+}
+
 
 
 async function getFollowers(username,page=1){
 try{
-      const response= await fetch(`https://api.github.com/users/${username}/followers?per_page=${perPage}&page=${page}`)
+      const response= await fetch(`https://api.github.com/users/${username}/followers?per_page=${perPage}&page=${page}`,{
+      headers:{
+         Authorization: `token ${GITHUB_TOKEN}`
+      }
+    })
       if(!response.ok){
         throw new Error('Requested failed')
       }
@@ -110,11 +136,14 @@ try{
 function updatePaginationButtons(count){
       const prevBtn=document.getElementById('prevBtn');
       const nextBtn=document.getElementById('nextbtn');
+      const pageNumEle=document.querySelector('.pageNum');
+
+      pageNumEle.innerText=` Page ${currentPage}`
 
       // disabling previous on page 1
       prevBtn.disabled = currentPage === 1
       
-      // if fwwer items returned than perpage number --> means last page
+      // if fewer items returned than perpage number --> means last page
       nextBtn.disabled= count < perPage;
       
       
@@ -140,7 +169,18 @@ function displayFollowers(data){
         </div>
     
     `
+     
+    const followerNameEle= document.querySelectorAll('.follower-name');
+
+    followerNameEle.forEach((person)=>{
+      person.addEventListener('click',()=>{
+         openOverviewPage(person.innerText)
+      })
+    })
+   
+
   })
+
 
   /* repos following button  */
 

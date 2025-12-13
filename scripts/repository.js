@@ -1,31 +1,35 @@
 const params= new URLSearchParams(window.location.search);
 const username=params.get("username");
-
 const filterItem= document.querySelector('.filter-input');
+const viewTab=document.querySelector('.view')
+
 
 let currentPage=1;
 const perPage=20;
 
-async function fetchingCurrentuser(username){
-  const response= await fetch(`https://api.github.com/users/${username}`)
-  if(!response.ok){
-    throw new Error('Request failed')
-  }
-  const data= await response.json();
-  console.log(data)
+// connecting to overView page
+
+viewTab.addEventListener('click',()=>{
+    openOverviewPage(username)
+})
+
+function openOverviewPage(username){
+    window.location.href=`index.html?username=${username}`
 }
 
 
 async function getUsers(username){
    try{
-    const response = await fetch(`https://api.github.com/users/${username}`)
+    const response = await fetch(`https://api.github.com/users/${username}`,{
+      headers:{
+         Authorization: `token ${GITHUB_TOKEN}`
+      }
+    })
       if(!response.ok){
         throw new Error('Requested failed')
       }
       const data=await response.json()
-       //----------------
-     
-       //---------------
+
        displayingUserData(data) ;
        headerUserPicName(data)
    }catch(error){
@@ -79,12 +83,39 @@ function displayingUserData(data){
   
   `
   repoCount.innerText=`${data.public_repos}`
+
+  //connecting to followers page
+   const followersEle=document.querySelector('.icon-link');
+   followersEle.addEventListener('click',()=>{
+     openFollowersPage(username)
+     
+   })
+
+   // connecting to following page
+   const followingEle=document.querySelector('.info-followers');
+   followingEle.addEventListener('click',()=>{
+        openFollowingPage(username)
+   })
+
 } 
+
+function openFollowersPage(username){
+   window.location.href=`followers.html?username=${username}`
+ //console.log(username)
+}
+
+function openFollowingPage(username){
+    window.location.href=`following-page.html?username=${username}`
+}
 
 
 async function userRepos( username,page=1){
     try{
-        const response= await fetch(`https://api.github.com/users/${username}/repos?per_page=${perPage}&page=${page}`);
+        const response= await fetch(`https://api.github.com/users/${username}/repos?per_page=${perPage}&page=${page}`,{
+      headers:{
+         Authorization: `token ${GITHUB_TOKEN}`
+      }
+    });
          if(!response.ok){
             throw new Error('Request failed')
          }
@@ -100,9 +131,12 @@ async function userRepos( username,page=1){
 
 function updatePaginationButtons(count){
     const prevBtn=document.querySelector('.prevBtn');
-    const nextBtn=document.querySelector('.nextBtn')
+    const nextBtn=document.querySelector('.nextBtn');
+    const pageNumEle=document.querySelector('.pageNum');
+
+    pageNumEle.innerText=` Page ${currentPage}`
      
-    prevBtn.disabled=currentPage===1
+    prevBtn.disabled=currentPage===1;
 
     nextBtn.disabled= count < perPage;
 
@@ -144,11 +178,11 @@ function displayingUserRepos(data){
        })
 }
 
-
+// adding filtering feature to repositories
 function filterRepos(e){
   const repoItems= document.querySelectorAll('.repos-all .each-repo')
   const filterItem=e.target.value.toLowerCase();
- console.log(filterItem)
+ //console.log(filterItem)
  repoItems.forEach((repo)=>{
       const repoName= repo.querySelector('.repo-name').textContent.toLowerCase();
      
@@ -168,7 +202,7 @@ filterItem.addEventListener('input',filterRepos)
 
 
 document.addEventListener('DOMContentLoaded',()=>{
-    fetchingCurrentuser(username)
+   // fetchingCurrentuser(username)
     getUsers(username)
     userRepos(username)
 

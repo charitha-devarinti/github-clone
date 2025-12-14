@@ -71,8 +71,6 @@ async function userData(username) {
 
          errorEle.querySelector('#errorMessage').innerText=`${err.message}`
          errorEle.querySelector('.retryBtn').addEventListener('click',()=>location.reload())
-    
-         
          errorEle.style.display='flex';
      
       
@@ -84,26 +82,6 @@ async function userData(username) {
 }
 
 
-/*
-async function getUsers(username){
-   try{
-    const response = await fetch(`https://api.github.com/users/${username}`,{
-      headers:{
-         Authorization: `token ${GITHUB_TOKEN}`
-      }
-    })
-      if(!response.ok){
-        throw new Error('Requested failed')
-      }
-      const data=await response.json();
-       displayingUserData(data) ;
-       headerUserPicName(data)
-   }catch(error){
-    console.log(error)
-   }
-}
-
-*/
 
 function headerUserPicName(data){
       const headerLeftEle=document.querySelector('.left');
@@ -190,44 +168,14 @@ followingEle.addEventListener('click',()=>{
 } 
 
 
-
-
-
 function openFollowers(currentUserName){
-  //console.log(currentUserName)
     window.location.href=`followers.html?username=${currentUserName}`
 }
 
 function openFollowing(currentUserName){
-  //console.log(currentUserName)
   window.location.href=`following-page.html?username=${currentUserName}`
 }
 
-
-
-
-
-/*
-async function userPopularRepos(username){
-    try{
-        const response= await fetch(`https://api.github.com/users/${username}/repos?per_page=6`,{
-      headers:{
-         Authorization: `token ${GITHUB_TOKEN}`
-      }
-    });
-         if(!response.ok){
-            throw new Error('Request failed')
-         }
-         const data= await response.json()
-        
-        displayingPopularRepos(data)
-
-    }catch(error){
-        console.log(error)
-    }
-
-}
-    */
 
 function displayingPopularRepos(data){
     const repoInfo= document.querySelector('.repo-grid')
@@ -255,7 +203,6 @@ function displayingPopularRepos(data){
       const repoLink=document.querySelectorAll('.repo-link')
       repoLink.forEach(repo =>{
         repo.addEventListener('click',()=>{
-           // console.log(searchEle.value.trim(),repo.innerText)
             window.location.href=`https://github.com/${searchEle.value.trim()}/${repo.innerText}`
         })
         
@@ -268,8 +215,7 @@ document.addEventListener('DOMContentLoaded',()=>{
               
           if(loginName){
               userData(loginName)
-             // getUsers(loginName);
-             // userPopularRepos(loginName)
+      
           }
         
      if(!sessionStorage.getItem('alertShown')){

@@ -71,9 +71,7 @@ async function userData() {
       fetchUser(username),
       fetchRepos(username,currentPage)
     ]);
-       
-    //console.log(userData);
-    //console.log(reposData)
+  
     displayingUserData(userData);
     headerUserPicName(userData);
     displayingUserRepos(reposData)
@@ -90,27 +88,7 @@ async function userData() {
    }
 }
 
-/*
-async function getUsers(username){
-   try{
-    const response = await fetch(`https://api.github.com/users/${username}`,{
-      headers:{
-         Authorization: `token ${GITHUB_TOKEN}`
-      }
-    })
-      if(!response.ok){
-        throw new Error('Requested failed')
-      }
-      const data=await response.json()
 
-       displayingUserData(data) ;
-       headerUserPicName(data)
-   }catch(error){
-    console.log(error)
-   }
-}
-
-*/
 
 function headerUserPicName(data){
       const headerLeftEle=document.querySelector('.left');
@@ -203,29 +181,7 @@ function openFollowingPage(username){
     window.location.href=`following-page.html?username=${username}`
 }
 
-/*
 
-async function userRepos( username,page=1){
-    try{
-        const response= await fetch(`https://api.github.com/users/${username}/repos?per_page=${perPage}&page=${page}`,{
-      headers:{
-         Authorization: `token ${GITHUB_TOKEN}`
-      }
-    });
-         if(!response.ok){
-            throw new Error('Request failed')
-         }
-         const data= await response.json()
-        
-        displayingUserRepos(data)
-        updatePaginationButtons(data.length)
-    }catch(error){
-        console.log(error)
-    }
-
-} 
-
-*/
 
 function updatePaginationButtons(count){
     const prevBtn=document.querySelector('.prevBtn');
@@ -281,7 +237,7 @@ function displayingUserRepos(data){
 function filterRepos(e){
   const repoItems= document.querySelectorAll('.repos-all .each-repo')
   const filterItem=e.target.value.toLowerCase();
- //console.log(filterItem)
+
  repoItems.forEach((repo)=>{
       const repoName= repo.querySelector('.repo-name').textContent.toLowerCase();
      
@@ -301,26 +257,16 @@ filterItem.addEventListener('input',filterRepos)
 
 
 document.addEventListener('DOMContentLoaded',()=>{
-   // fetchingCurrentuser(username)
-   
    userData()
-   // getUsers(username)
-    //userRepos(username)
-
     document.querySelector('.prevBtn').addEventListener('click',()=>{
       if(currentPage >1){
         currentPage--;
-        //userRepos(username,currentPage)
-      
         userData()
       }
     })
 
     document.querySelector('.nextBtn').addEventListener('click',()=>{
-      
       currentPage++;
-      //userRepos(username,currentPage)
-    
       userData()
     })
 })

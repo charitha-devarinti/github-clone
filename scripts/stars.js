@@ -71,9 +71,6 @@ async function userData() {
       fetchUser(username),
       fetchStarRepos(username,currentPage)
     ]);
-       
-    // console.log(userData);
-    // console.log(reposData);
     headerUserPicName(userData)
     displayingUserData(userData);
     displayingUserStaredRepos(reposData);
@@ -171,9 +168,6 @@ function displayingUserData(data){
         openFollowingPage(username)
    })
 
-
-
-
 }
 
 
@@ -232,7 +226,6 @@ function displayingUserStaredRepos(data){
       const repoNameEle=document.querySelectorAll('.repo-name');
        repoNameEle.forEach((repo)=>{
            repo.addEventListener('click',()=>{
-             // console.log(username,repo.innerText)
              window.location.href=`https://github.com/${username}/${repo.innerText}`
            })
        })
@@ -264,27 +257,17 @@ filterItem.addEventListener('input',filterRepos)
 
 
 
-document.addEventListener('DOMContentLoaded',()=>{
-   // fetchingCurrentuser(username)
-   
+document.addEventListener('DOMContentLoaded',()=>{ 
    userData()
-   // getUsers(username)
-    //userRepos(username)
-
     document.querySelector('.prevBtn').addEventListener('click',()=>{
       if(currentPage >1){
         currentPage--;
-        //userRepos(username,currentPage)
-      
         userData()
       }
     })
 
     document.querySelector('.nextBtn').addEventListener('click',()=>{
-      
-      currentPage++;
-      //userRepos(username,currentPage)
-    
-      userData()
+       currentPage++;
+      userData();
     })
 })

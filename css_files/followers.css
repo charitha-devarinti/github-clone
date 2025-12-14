@@ -199,7 +199,7 @@ main{
 }
 
 .followersColor{
-    color: blue;
+    color: rgb(57, 57, 253);
     transition: color 0.1s ease-in-out;
 }
 
@@ -349,4 +349,47 @@ main{
 
 .retryBtn:hover{
     background-color: rgb(89, 89, 89);
+}
+
+
+
+@media (max-width:750px)
+{
+
+header{
+    display: block;
+}
+.project{
+    display: none;
+}
+
+.package{
+    display: none;
+}
+
+.right{
+    padding-top:20px;
+    margin:auto;
+    justify-content: center;
+}
+.user-name{
+    font-size:15px;
+}
+
+.pic-name{
+    font-size:15px;
+}
+main{
+    display: block;
+}
+.repo-grid{
+    
+    display: block;
+}
+
+.follower-right{
+    padding-top:20px;
+}
+
+
 }

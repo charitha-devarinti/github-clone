@@ -81,9 +81,6 @@ async function userData() {
       fetchUser(username),
       fetchFollowings(username,currentPage)
     ]);
-       
-    //console.log(userData);
-    //console.log(reposData)
     displayingUserData(userData);
     headerUserPicName(userData);
      displayFollowingData(followingsData)
@@ -99,28 +96,6 @@ async function userData() {
    }
 }
 
-
-/*
-async function getUsers(username){
-   try{
-    const response = await fetch(`https://api.github.com/users/${username}`,{
-      headers:{
-         Authorization: `token ${GITHUB_TOKEN}`
-      }
-    })
-      if(!response.ok){
-        throw new Error('Requested failed')
-      }
-      const data= await response.json()
-      
-       displayingUserData(data) ;
-       headerUserPicName(data)
-   }catch(error){
-    console.log(error)
-   }
-}
-
-*/
 
 function headerUserPicName(data){
       const headerLeftEle=document.querySelector('.left');
@@ -204,31 +179,9 @@ function displayingUserData(data){
 
   function openFollowersPage(username){
    window.location.href=`followers.html?username=${username}`
- //console.log(username)
+
 }
 
-
-/*
-async function getFollowingData(username,page=1){
-    
-    try{
-        const response= await fetch(`https://api.github.com/users/${username}/following?per_page=${perPage}&page=${page}`,{
-      headers:{
-         Authorization: `token ${GITHUB_TOKEN}`
-      }
-    })
-        if(!response.ok){
-            throw new Error('Request failed')
-        }
-      const data = await response.json()
-      displayFollowingData(data)
-      updatePaginationButtons(data.length)
-}catch(err){
-    console.log(err)
-}
-}
-
-*/
 
 
 function updatePaginationButtons(count){
@@ -304,21 +257,16 @@ function displayFollowingData(data){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
-    // getFollowingData(username)
-    // getUsers(username)
     userData()
-
     document.querySelector('.prevBtn').addEventListener('click',()=>{
         if(currentPage > 1){
             currentPage --
-           // getFollowingData(username,currentPage)
            userData()
         }
     })
 
     document.querySelector('.nextBtn').addEventListener('click',()=>{
         currentPage++;
-        //getFollowingData(username,currentPage)
         userData()
     })
 

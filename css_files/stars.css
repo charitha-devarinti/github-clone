@@ -90,6 +90,12 @@ nav{
     margin:3px;
 }
 
+.starColour{
+    color:rgb(55, 55, 250);
+   
+    font-weight: bold;
+}
+
 .name{
     margin-right:10px;
     font-size: 14px;
@@ -106,14 +112,6 @@ nav{
      margin-left:5px; 
 }
 
-.border{
-    border-bottom: 2px solid #ff8c6b;
-     width:100px;
-    position: absolute;
-    bottom:0px;
-    margin-left:9;
-    left:37%;
-}
 
 
 main{
@@ -404,3 +402,48 @@ main{
 .retryBtn:hover{
     background-color: rgb(89, 89, 89);
 }
+
+
+@media (max-width:750px)
+{
+
+header{
+    display: block;
+}
+
+.project{
+    display: none;
+}
+
+.package{
+    display: none;
+}
+
+.right{
+    padding-top:20px;
+    margin:auto;
+    justify-content: center;
+}
+.user-name{
+    font-size:15px;
+}
+
+.pic-name{
+    font-size:15px;
+}
+main{
+    display: block;
+}
+.repo-grid{
+    
+    display: block;
+}
+
+.repo-right{
+    padding-top:15px;
+}
+
+
+
+}
+

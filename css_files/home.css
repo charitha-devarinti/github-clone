@@ -91,6 +91,12 @@ nav{
     border-radius:5px;
 }
 
+.overviewColor{
+    color:rgb(55, 55, 250);
+   
+    font-weight: bold;
+}
+
 .project{
     cursor:none;
 }
@@ -122,12 +128,6 @@ nav{
      margin-left:5px; 
 }
 
-.border{
-    border-bottom: 2px solid #ff8c6b;
-     width:100px;
-    position: absolute;
-    bottom:0px;
-}
 
 /* body*/
 
@@ -163,7 +163,7 @@ main{
 .pic-name{
     font-weight:300;
     font-size: 20px;
-    color:rgb(106, 105, 105)
+    color:rgb(141, 140, 140)
 }
 
 .follow-btn{
@@ -345,4 +345,48 @@ main{
 
 .retryBtn:hover{
     background-color: rgb(89, 89, 89);
+}
+
+
+
+@media (max-width:750px)
+{
+
+header{
+    display: block;
+}
+.project{
+    display: none;
+}
+
+.package{
+    display: none;
+}
+
+.right{
+    padding-top:20px;
+    margin:auto;
+    justify-content: center;
+}
+.user-name{
+    font-size:15px;
+}
+
+.pic-name{
+    font-size:15px;
+}
+main{
+    display: block;
+}
+.repo-grid{
+    
+    display: block;
+}
+
+.main-right{
+    padding-top:15px;
+}
+
+
+
 }

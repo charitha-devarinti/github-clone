@@ -33,14 +33,14 @@ function openRepository(currentUserName){
 
 
 async function fetchUser(username) {
-  const res=await fetch(`https://api.github.com/users/${username}`,{
-      headers:{
-         Authorization: `token ${GITHUB_TOKEN}`
-      }
-    })
+  const res=await fetch(`https://api.github.com/users/${username}`)
 
     if(!res.ok){
       throw new Error('Request failed try again')
+    }
+
+     if(res.status===403){
+       throw new Error('GitHub request forbidden. try again later')
     }
 
     return await res.json()
@@ -48,14 +48,14 @@ async function fetchUser(username) {
 }
 
 async function fetchStarRepos(username,page) {
-  const res= await fetch(`https://api.github.com/users/${username}/starred?per_page=${perPage}&page=${page}`,{
-      headers:{
-         Authorization: `token ${GITHUB_TOKEN}`
-      }
-    })
+  const res= await fetch(`https://api.github.com/users/${username}/starred?per_page=${perPage}&page=${page}`)
 
     if(!res.ok){
       throw new Error('Request failed try again')
+    }
+
+     if(res.status===403){
+       throw new Error('GitHub request forbidden. try again later')
     }
 
     return await res.json()

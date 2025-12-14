@@ -45,21 +45,23 @@ function openStarsPage(currentUserName){
 
 
 async function userData(username) {
-  const  headers={
-         Authorization: `token ${GITHUB_TOKEN}`
-      }
+
   mainEle.classList.add('hidden')
   loaderEle.style.display='flex';
    try{
       const[userResponse,reposResponse]= await Promise.all([
-        fetch(`https://api.github.com/users/${username}`,{headers}),
-        fetch(`https://api.github.com/users/${username}/repos?per_page=6`,{headers})
+        fetch(`https://api.github.com/users/${username}`),
+        fetch(`https://api.github.com/users/${username}/repos?per_page=6`)
       ])
       if(!userResponse.ok){
         throw new Error('ooops...User not found!')
       }
       if(!reposResponse.ok){
         throw new Error('Unable to fetch repositories')
+      }
+
+      if(reposResponse.status===403 || reposResponse.status===403){
+         throw new Error('GitHub request forbidden. try again later')
       }
       const userData=await userResponse.json();
       const reposData= await reposResponse.json();

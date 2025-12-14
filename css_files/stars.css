@@ -112,9 +112,8 @@ nav{
     position: absolute;
     bottom:0px;
     margin-left:9;
-    left:13%;
+    left:37%;
 }
-
 
 
 main{
@@ -128,6 +127,7 @@ main{
    max-width: 80%;
 
 }
+
 
 /* left side */
 
@@ -219,14 +219,13 @@ main{
     color: blue;
 }
 
-/* repo right */
-
+/*  stras repos container*/
 .filter-input{
     width:80%;
     border:1px solid rgb(68, 68, 68);
     padding:10px;
     border-radius: 5px;
-    font-size: 14px;;
+    font-size: 14px;
 }
 
 .filter-input::placeholder{
@@ -239,10 +238,11 @@ main{
     margin-top:15px;
 }
 
-/*repos */
 
+/*  about stared repos */
 
 .each-repo{
+    
     padding-top:30px;
     padding-bottom: 15px;
 }
@@ -284,7 +284,6 @@ main{
     column-gap: 15px;
 }
 
-
 .color-and-skill{
     display: flex;
      align-items: center;
@@ -321,7 +320,8 @@ main{
     color: rgb(111, 111, 111);
 }
 
-/*  adding pagination */
+/*  adding pagination*/
+
 .pagination{
     display: flex;
     justify-content: center;
@@ -346,7 +346,6 @@ main{
    
    background-color: rgb(42, 41, 41);
 }
-
 
 
 /*    loading image */

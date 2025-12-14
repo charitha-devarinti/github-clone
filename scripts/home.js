@@ -2,11 +2,13 @@ const params= new URLSearchParams(window.location.search);
 const loginName=params.get("username");
 
 const searchBtnEle=document.querySelector('.search-btn');
-const repoTab=document.querySelector('.repo')
+const repoTab=document.querySelector('.repo');
+const starTab=document.querySelector('.star')
 const searchEle=document.querySelector('.search-user');
 const loaderEle=document.querySelector('#loader');
 const mainEle=document.querySelector('#mainContent');
-const errorEle=document.querySelector('#errorcontainer')
+const errorEle=document.querySelector('#errorcontainer');
+
 
 
 searchBtnEle.addEventListener('click',()=>{
@@ -31,6 +33,15 @@ function openRepository(currentUserName){
   window.location.href=`repository.html?username=${currentUserName}`
 }
 
+//connecting to stars page
+
+starTab.addEventListener('click',()=>{
+    openStarsPage(searchEle.value.trim() || loginName)
+})
+
+function openStarsPage(currentUserName){
+   window.location.href=`stars.html?username=${currentUserName}`
+}
 
 
 async function userData(username) {

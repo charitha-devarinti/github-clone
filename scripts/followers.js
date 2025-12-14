@@ -5,6 +5,7 @@ const repoTab=document.querySelector('.repo');
 const loaderEle=document.querySelector('#loader');
 const mainEle=document.querySelector('#mainContent');
 const errorEle=document.querySelector('#errorcontainer');
+const starTab=document.querySelector('.star')
 
 let currentPage=1;
 const perPage=15;
@@ -28,6 +29,17 @@ repoTab.addEventListener('click',()=>{
 function openRepository(currentUserName){
   window.location.href=`repository.html?username=${currentUserName}`
 }
+
+//connecting to stars page
+
+starTab.addEventListener('click',()=>{
+    openStarsPage(username)
+})
+
+function openStarsPage(currentUserName){
+   window.location.href=`stars.html?username=${currentUserName}`
+}
+
 
 
 async function fetchUser(username) {

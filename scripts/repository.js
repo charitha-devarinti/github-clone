@@ -1,5 +1,5 @@
 const params= new URLSearchParams(window.location.search);
-const username=params.get("username");
+const username=params.get("username")|| "octocat";
 const filterItem= document.querySelector('.filter-input');
 const viewTab=document.querySelector('.view');
 const loaderEle=document.querySelector('#loader');
@@ -93,7 +93,7 @@ async function userData() {
 function headerUserPicName(data){
       const headerLeftEle=document.querySelector('.left');
       headerLeftEle.innerHTML=`
-       <img src=${data.avatar_url} class="user-pic">
+       <img src="${data.avatar_url}" class="user-pic">
        <p class="user">${data.name}</p>
       `
       document.querySelector('.user').addEventListener('click',()=>openOverviewPage(username))
@@ -106,7 +106,7 @@ function displayingUserData(data){
   const userProfileEle= document.querySelector('.main-left')
    const repoCount=document.querySelector('.repo-count')
   userProfileEle.innerHTML=`
-        <img class="user-profile" src=${data.avatar_url}>
+        <img class="user-profile" src="${data.avatar_url}">
        <h2 class="user-name">${data.name}</h2>
        <p class="pic-name">${data.login}</p>
       <button class="follow-btn">Follow</button>

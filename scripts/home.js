@@ -1,5 +1,5 @@
 const params= new URLSearchParams(window.location.search);
-const loginName=params.get("username");
+const loginName=params.get("username")||"octocat";
 
 const searchBtnEle=document.querySelector('.search-btn');
 const repoTab=document.querySelector('.repo');
@@ -49,20 +49,41 @@ async function userData(username) {
   mainEle.classList.add('hidden')
   loaderEle.style.display='flex';
    try{
+    /*
       const[userResponse,reposResponse]= await Promise.all([
         fetch(`https://api.github.com/users/${username}`),
         fetch(`https://api.github.com/users/${username}/repos?per_page=6`)
       ])
-      if(!userResponse.ok){
+        */
+
+    const userResponse = await fetch(`https://api.github.com/users/${username}`);
+    const reposResponse = await fetch(`https://api.github.com/users/${username}/repos?per_page=6`);
+
+      if(userResponse.status===403){
+        throw new Error('GitHub request forbidden. try again later')
+      }
+
+      if(userResponse.status===404){
         throw new Error('ooops...User not found!')
       }
+
+      if(!userResponse.ok){
+         throw new Error('Unable to fetch user data');
+     }
+
+     if( reposResponse.status===403){
+         throw new Error('GitHub request forbidden. try again later')
+      }
+      
+      if( reposResponse.status===404){
+         throw new Error('Unable to fetch user data')
+      }
+
       if(!reposResponse.ok){
         throw new Error('Unable to fetch repositories')
       }
 
-      if(reposResponse.status===403 || reposResponse.status===403){
-         throw new Error('GitHub request forbidden. try again later')
-      }
+      
       const userData=await userResponse.json();
       const reposData= await reposResponse.json();
        displayingUserData(userData) ;
@@ -88,7 +109,7 @@ async function userData(username) {
 function headerUserPicName(data){
       const headerLeftEle=document.querySelector('.left');
       headerLeftEle.innerHTML=`
-       <img src=${data.avatar_url} class="user-pic">
+       <img src="${data.avatar_url}" class="user-pic">
        <p class="user">${data.name}</p>
       `
 }
@@ -98,7 +119,7 @@ function displayingUserData(data){
   const userProfileEle= document.querySelector('.main-left');
   const repoCount=document.querySelector('.repo-count')
   userProfileEle.innerHTML=`
-        <img class="user-profile" src=${data.avatar_url}>
+        <img class="user-profile" src="${data.avatar_url}">
        <h2 class="user-name">${data.name}</h2>
        <p class="pic-name">${data.login}</p>
       <button class="follow-btn">Follow</button>
@@ -215,10 +236,13 @@ function displayingPopularRepos(data){
 
 document.addEventListener('DOMContentLoaded',()=>{
               
-          if(loginName){
-              userData(loginName)
+          // if(loginName){
+          //     userData(loginName)
       
-          }
+          // }
+
+          const finalName = loginName || "octocat";
+          userData(finalName);
         
      if(!sessionStorage.getItem('alertShown')){
         alert(`First search for a user in search box....
